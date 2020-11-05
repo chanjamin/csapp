@@ -1,3 +1,4 @@
+
 bomb：     文件格式 elf64-x86-64
 
 
@@ -158,7 +159,7 @@ Disassembly of section .text:
   400c92:	49 89 d1             	mov    %rdx,%r9
   400c95:	5e                   	pop    %rsi
   400c96:	48 89 e2             	mov    %rsp,%rdx
-  400c99:	48 83 e4 f0          	and    $0xfffffffffffffff0,%rsp   # rsp低四位设0
+  400c99:	48 83 e4 f0          	and    $0xfffffffffffffff0,%rsp
   400c9d:	50                   	push   %rax
   400c9e:	54                   	push   %rsp
   400c9f:	49 c7 c0 a0 22 40 00 	mov    $0x4022a0,%r8
@@ -260,13 +261,13 @@ Disassembly of section .text:
   400d9e:	90                   	nop
   400d9f:	90                   	nop
 
-0000000000400da0 <main>:  # argc in rdi,
-  400da0:	53                   	push   %rbx # ?infile?
-  400da1:	83 ff 01             	cmp    $0x1,%edi    # if(argc!=1) goto 
+0000000000400da0 <main>:
+  400da0:	53                   	push   %rbx
+  400da1:	83 ff 01             	cmp    $0x1,%edi
   400da4:	75 10                	jne    400db6 <main+0x16>
-  400da6:	48 8b 05 9b 29 20 00 	mov    0x20299b(%rip),%rax        # 603748 <stdin@@GLIBC_2.2.5> 
-  400dad:	48 89 05 b4 29 20 00 	mov    %rax,0x2029b4(%rip)        # 603768 <infile> # mov pointer stdin to *infile
-  400db4:	eb 63                	jmp    400e19 <main+0x79>   # initialize_bomb
+  400da6:	48 8b 05 9b 29 20 00 	mov    0x20299b(%rip),%rax        # 603748 <stdin@@GLIBC_2.2.5>
+  400dad:	48 89 05 b4 29 20 00 	mov    %rax,0x2029b4(%rip)        # 603768 <infile>
+  400db4:	eb 63                	jmp    400e19 <main+0x79>
   400db6:	48 89 f3             	mov    %rsi,%rbx
   400db9:	83 ff 02             	cmp    $0x2,%edi
   400dbc:	75 3a                	jne    400df8 <main+0x58>
@@ -289,18 +290,18 @@ printf (const char *__restrict __fmt, ...)
   400de9:	e8 12 fe ff ff       	callq  400c00 <__printf_chk@plt>
   400dee:	bf 08 00 00 00       	mov    $0x8,%edi
   400df3:	e8 28 fe ff ff       	callq  400c20 <exit@plt>
-  400df8:	48 8b 16             	mov    (%rsi),%rdx    # else
+  400df8:	48 8b 16             	mov    (%rsi),%rdx
   400dfb:	be d3 22 40 00       	mov    $0x4022d3,%esi
   400e00:	bf 01 00 00 00       	mov    $0x1,%edi
   400e05:	b8 00 00 00 00       	mov    $0x0,%eax
   400e0a:	e8 f1 fd ff ff       	callq  400c00 <__printf_chk@plt>
   400e0f:	bf 08 00 00 00       	mov    $0x8,%edi
-  400e14:	e8 07 fe ff ff       	callq  400c20 <exit@plt>    # end else
-  400e19:	e8 84 05 00 00       	callq  4013a2 <initialize_bomb>   # initialize_bomb();
+  400e14:	e8 07 fe ff ff       	callq  400c20 <exit@plt>
+  400e19:	e8 84 05 00 00       	callq  4013a2 <initialize_bomb>
   400e1e:	bf 38 23 40 00       	mov    $0x402338,%edi
   400e23:	e8 e8 fc ff ff       	callq  400b10 <puts@plt>
   400e28:	bf 78 23 40 00       	mov    $0x402378,%edi
-  400e2d:	e8 de fc ff ff       	callq  400b10 <puts@plt>  # 2*printf
+  400e2d:	e8 de fc ff ff       	callq  400b10 <puts@plt>
   400e32:	e8 67 06 00 00       	callq  40149e <read_line>
   400e37:	48 89 c7             	mov    %rax,%rdi
   400e3a:	e8 a1 00 00 00       	callq  400ee0 <phase_1>
@@ -703,7 +704,7 @@ printf (const char *__restrict __fmt, ...)
   401332:	b8 00 00 00 00       	mov    $0x0,%eax
   401337:	c3                   	retq   
 
-0000000000401338 <strings_not_equal>: #  # x in rdi,y in %rsi
+0000000000401338 <strings_not_equal>:
   401338:	41 54                	push   %r12
   40133a:	55                   	push   %rbp
   40133b:	53                   	push   %rbx
@@ -737,17 +738,17 @@ printf (const char *__restrict __fmt, ...)
   40138f:	ba 01 00 00 00       	mov    $0x1,%edx
   401394:	eb 05                	jmp    40139b <strings_not_equal+0x63>
   401396:	ba 01 00 00 00       	mov    $0x1,%edx
-  40139b:	89 d0                	mov    %edx,%eax  # jump_not_equal
+  40139b:	89 d0                	mov    %edx,%eax
   40139d:	5b                   	pop    %rbx
   40139e:	5d                   	pop    %rbp
   40139f:	41 5c                	pop    %r12
   4013a1:	c3                   	retq   
 
-00000000004013a2 <initialize_bomb>: # rsp,rsi,rdi
+00000000004013a2 <initialize_bomb>:
   4013a2:	48 83 ec 08          	sub    $0x8,%rsp
   4013a6:	be a0 12 40 00       	mov    $0x4012a0,%esi
   4013ab:	bf 02 00 00 00       	mov    $0x2,%edi
-  4013b0:	e8 db f7 ff ff       	callq  400b90 <signal@plt> # signal(2,sig_handler)
+  4013b0:	e8 db f7 ff ff       	callq  400b90 <signal@plt>
   4013b5:	48 83 c4 08          	add    $0x8,%rsp
   4013b9:	c3                   	retq   
 
