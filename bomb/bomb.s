@@ -690,7 +690,7 @@ printf (const char *__restrict __fmt, ...)
   401311:	bf 08 00 00 00       	mov    $0x8,%edi
   401316:	e8 05 f9 ff ff       	callq  400c20 <exit@plt>
 
-000000000040131b <string_length>:
+000000000040131b <string_length>: # cp in %rdi ,c2 in %rdx, rtn in %rax
   40131b:	80 3f 00             	cmpb   $0x0,(%rdi)
   40131e:	74 12                	je     401332 <string_length+0x17>
   401320:	48 89 fa             	mov    %rdi,%rdx
@@ -707,29 +707,29 @@ printf (const char *__restrict __fmt, ...)
   401338:	41 54                	push   %r12
   40133a:	55                   	push   %rbp
   40133b:	53                   	push   %rbx
-  40133c:	48 89 fb             	mov    %rdi,%rbx
+  40133c:	48 89 fb             	mov    %rdi,%rbx  # *x in rbx,*y in rbp
   40133f:	48 89 f5             	mov    %rsi,%rbp
-  401342:	e8 d4 ff ff ff       	callq  40131b <string_length>
-  401347:	41 89 c4             	mov    %eax,%r12d
-  40134a:	48 89 ef             	mov    %rbp,%rdi
-  40134d:	e8 c9 ff ff ff       	callq  40131b <string_length>
-  401352:	ba 01 00 00 00       	mov    $0x1,%edx
-  401357:	41 39 c4             	cmp    %eax,%r12d
-  40135a:	75 3f                	jne    40139b <strings_not_equal+0x63>
-  40135c:	0f b6 03             	movzbl (%rbx),%eax
-  40135f:	84 c0                	test   %al,%al
-  401361:	74 25                	je     401388 <strings_not_equal+0x50>
-  401363:	3a 45 00             	cmp    0x0(%rbp),%al
+  401342:	e8 d4 ff ff ff       	callq  40131b <string_length> # 1 call string_length(&x)
+  401347:	41 89 c4             	mov    %eax,%r12d # store return to r12d
+  40134a:	48 89 ef             	mov    %rbp,%rdi # y->arg1
+  40134d:	e8 c9 ff ff ff       	callq  40131b <string_length> # 2 call string_length(&y)
+  401352:	ba 01 00 00 00       	mov    $0x1,%edx # int z=1;
+  401357:	41 39 c4             	cmp    %eax,%r12d # cmp 2 calls
+  40135a:	75 3f                	jne    40139b <strings_not_equal+0x63> # not eq,return 1
+  40135c:	0f b6 03             	movzbl (%rbx),%eax # int z=&x
+  40135f:	84 c0                	test   %al,%al 
+  401361:	74 25                	je     401388 <strings_not_equal+0x50> # if last bit of z==0;z=0;return z;
+  401363:	3a 45 00             	cmp    0x0(%rbp),%al # &y==z 401372
   401366:	74 0a                	je     401372 <strings_not_equal+0x3a>
   401368:	eb 25                	jmp    40138f <strings_not_equal+0x57>
   40136a:	3a 45 00             	cmp    0x0(%rbp),%al
   40136d:	0f 1f 00             	nopl   (%rax)
-  401370:	75 24                	jne    401396 <strings_not_equal+0x5e>
-  401372:	48 83 c3 01          	add    $0x1,%rbx
-  401376:	48 83 c5 01          	add    $0x1,%rbp
-  40137a:	0f b6 03             	movzbl (%rbx),%eax
+  401370:	75 24                	jne    401396 <strings_not_equal+0x5e>    # if &y!=z return z=0;
+  401372:	48 83 c3 01          	add    $0x1,%rbx 
+  401376:	48 83 c5 01          	add    $0x1,%rbp  # add x,y
+  40137a:	0f b6 03             	movzbl (%rbx),%eax 
   40137d:	84 c0                	test   %al,%al
-  40137f:	75 e9                	jne    40136a <strings_not_equal+0x32>
+  40137f:	75 e9                	jne    40136a <strings_not_equal+0x32> # get last bit of &x jmp if !0
   401381:	ba 00 00 00 00       	mov    $0x0,%edx
   401386:	eb 13                	jmp    40139b <strings_not_equal+0x63>
   401388:	ba 00 00 00 00       	mov    $0x0,%edx
@@ -737,10 +737,10 @@ printf (const char *__restrict __fmt, ...)
   40138f:	ba 01 00 00 00       	mov    $0x1,%edx
   401394:	eb 05                	jmp    40139b <strings_not_equal+0x63>
   401396:	ba 01 00 00 00       	mov    $0x1,%edx
-  40139b:	89 d0                	mov    %edx,%eax  # jump_not_equal
-  40139d:	5b                   	pop    %rbx
-  40139e:	5d                   	pop    %rbp
-  40139f:	41 5c                	pop    %r12
+  40139b:	89 d0                	mov    %edx,%eax  # jump_not_equal  # | return z;
+  40139d:	5b                   	pop    %rbx # | return z;
+  40139e:	5d                   	pop    %rbp # | return z;
+  40139f:	41 5c                	pop    %r12 # | return z;
   4013a1:	c3                   	retq   
 
 00000000004013a2 <initialize_bomb>: # rsp,rsi,rdi
