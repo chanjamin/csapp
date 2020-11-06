@@ -703,7 +703,7 @@ printf (const char *__restrict __fmt, ...)
   401332:	b8 00 00 00 00       	mov    $0x0,%eax
   401337:	c3                   	retq   
 
-0000000000401338 <strings_not_equal>: #  # x in rdi,y in %rsi
+0000000000401338 <strings_not_equal>: #  # x in rdi,y=0x402400 in %rsi
   401338:	41 54                	push   %r12
   40133a:	55                   	push   %rbp
   40133b:	53                   	push   %rbx
@@ -716,7 +716,7 @@ printf (const char *__restrict __fmt, ...)
   401352:	ba 01 00 00 00       	mov    $0x1,%edx # int z=1;
   401357:	41 39 c4             	cmp    %eax,%r12d # cmp 2 calls
   40135a:	75 3f                	jne    40139b <strings_not_equal+0x63> # not eq,return 1
-  40135c:	0f b6 03             	movzbl (%rbx),%eax # int z=&x
+  40135c:	0f b6 03             	movzbl (%rbx),%eax # int z=&xx
   40135f:	84 c0                	test   %al,%al 
   401361:	74 25                	je     401388 <strings_not_equal+0x50> # if last bit of z==0;z=0;return z;
   401363:	3a 45 00             	cmp    0x0(%rbp),%al # &y==z 401372
