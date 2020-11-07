@@ -361,7 +361,7 @@ printf (const char *__restrict __fmt, ...)
 0000000000400efc <phase_2>:
   400efc:	55                   	push   %rbp
   400efd:	53                   	push   %rbx
-  400efe:	48 83 ec 28          	sub    $0x28,%rsp
+  400efe:	48 83 ec 28          	sub    $0x28,%rsp # -40
   400f02:	48 89 e6             	mov    %rsp,%rsi
   400f05:	e8 52 05 00 00       	callq  40145c <read_six_numbers>
   400f0a:	83 3c 24 01          	cmpl   $0x1,(%rsp)
@@ -375,8 +375,8 @@ printf (const char *__restrict __fmt, ...)
   400f20:	e8 15 05 00 00       	callq  40143a <explode_bomb>
   400f25:	48 83 c3 04          	add    $0x4,%rbx
   400f29:	48 39 eb             	cmp    %rbp,%rbx
-  400f2c:	75 e9                	jne    400f17 <phase_2+0x1b>
-  400f2e:	eb 0c                	jmp    400f3c <phase_2+0x40>
+  400f2c:	75 e9                	jne    400f17 <phase_2+0x1b> # jump to loop
+  400f2e:	eb 0c                	jmp    400f3c <phase_2+0x40> # jump to exit
   400f30:	48 8d 5c 24 04       	lea    0x4(%rsp),%rbx
   400f35:	48 8d 6c 24 18       	lea    0x18(%rsp),%rbp
   400f3a:	eb db                	jmp    400f17 <phase_2+0x1b>
@@ -806,18 +806,18 @@ printf (const char *__restrict __fmt, ...)
   401452:	bf 08 00 00 00       	mov    $0x8,%edi
   401457:	e8 c4 f7 ff ff       	callq  400c20 <exit@plt>
 
-000000000040145c <read_six_numbers>:
-  40145c:	48 83 ec 18          	sub    $0x18,%rsp
-  401460:	48 89 f2             	mov    %rsi,%rdx
-  401463:	48 8d 4e 04          	lea    0x4(%rsi),%rcx
-  401467:	48 8d 46 14          	lea    0x14(%rsi),%rax
-  40146b:	48 89 44 24 08       	mov    %rax,0x8(%rsp)
-  401470:	48 8d 46 10          	lea    0x10(%rsi),%rax
-  401474:	48 89 04 24          	mov    %rax,(%rsp)
-  401478:	4c 8d 4e 0c          	lea    0xc(%rsi),%r9
-  40147c:	4c 8d 46 08          	lea    0x8(%rsi),%r8
+000000000040145c <read_six_numbers>: #   (%rsp) in %rsi  offse comp to 400efe
+  40145c:	48 83 ec 18          	sub    $0x18,%rsp # -64
+  401460:	48 89 f2             	mov    %rsi,%rdx #  rdx=rsp-40 save arg2
+  401463:	48 8d 4e 04          	lea    0x4(%rsi),%rcx # rcx=rsp-36)
+  401467:	48 8d 46 14          	lea    0x14(%rsi),%rax # rax=rsp-20)
+  40146b:	48 89 44 24 08       	mov    %rax,0x8(%rsp) # rsp-56=rax
+  401470:	48 8d 46 10          	lea    0x10(%rsi),%rax # rax= rsp-24
+  401474:	48 89 04 24          	mov    %rax,(%rsp) # *rsp=rax
+  401478:	4c 8d 4e 0c          	lea    0xc(%rsi),%r9 # rsp-28
+  40147c:	4c 8d 46 08          	lea    0x8(%rsi),%r8 # *rsp-32
   401480:	be c3 25 40 00       	mov    $0x4025c3,%esi
-  401485:	b8 00 00 00 00       	mov    $0x0,%eax
+  401485:	b8 00 00 00 00       	mov    $0x0,%eax 
   40148a:	e8 61 f7 ff ff       	callq  400bf0 <__isoc99_sscanf@plt>
   40148f:	83 f8 05             	cmp    $0x5,%eax
   401492:	7f 05                	jg     401499 <read_six_numbers+0x3d>

@@ -33,6 +33,14 @@ int string_length(char *cp)
     return rtn;
 }
 
-426f7264657220
-1168742847764258
-Border
+void phase2(){
+    
+}
+
+void read_six_numbers(char * readline,int * y ){
+    long *p1; // rsp-64
+    int d=y;//d in rdx
+    int c=y+1;//c in rcx
+    int rtn=y+5;
+    
+}
