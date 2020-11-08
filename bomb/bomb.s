@@ -807,15 +807,15 @@ printf (const char *__restrict __fmt, ...)
   401457:	e8 c4 f7 ff ff       	callq  400c20 <exit@plt>
 
 000000000040145c <read_six_numbers>: #   (%rsp) in %rsi  offse comp to 400efe
-  40145c:	48 83 ec 18          	sub    $0x18,%rsp # -64
+  40145c:	48 83 ec 18          	sub    $0x18,%rsp #  400efe-64
   401460:	48 89 f2             	mov    %rsi,%rdx #  rdx=rsp-40 save arg2
-  401463:	48 8d 4e 04          	lea    0x4(%rsi),%rcx # rcx=rsp-36)
-  401467:	48 8d 46 14          	lea    0x14(%rsi),%rax # rax=rsp-20)
-  40146b:	48 89 44 24 08       	mov    %rax,0x8(%rsp) # rsp-56=rax
-  401470:	48 8d 46 10          	lea    0x10(%rsi),%rax # rax= rsp-24
-  401474:	48 89 04 24          	mov    %rax,(%rsp) # *rsp=rax
-  401478:	4c 8d 4e 0c          	lea    0xc(%rsi),%r9 # rsp-28
-  40147c:	4c 8d 46 08          	lea    0x8(%rsi),%r8 # *rsp-32
+  401463:	48 8d 4e 04          	lea    0x4(%rsi),%rcx 
+  401467:	48 8d 46 14          	lea    0x14(%rsi),%rax
+  40146b:	48 89 44 24 08       	mov    %rax,0x8(%rsp) 
+  401470:	48 8d 46 10          	lea    0x10(%rsi),%rax
+  401474:	48 89 04 24          	mov    %rax,(%rsp) #
+  401478:	4c 8d 4e 0c          	lea    0xc(%rsi),%r9 #
+  40147c:	4c 8d 46 08          	lea    0x8(%rsi),%r8 #
   401480:	be c3 25 40 00       	mov    $0x4025c3,%esi
   401485:	b8 00 00 00 00       	mov    $0x0,%eax 
   40148a:	e8 61 f7 ff ff       	callq  400bf0 <__isoc99_sscanf@plt>

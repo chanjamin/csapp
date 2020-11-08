@@ -40,7 +40,12 @@ void phase2(){
 void read_six_numbers(char * readline,int * y ){
     long *p1; // rsp-64
     int d=y;//d in rdx
-    int c=y+1;//c in rcx
-    int rtn=y+5;
+    int c=y-1;//c in rcx
+    int rtn=y-5;
+    *(y-4)=rtn;
+    rtn=y+4;
+    *(y=+6)=rtn;
+    int *r9=y-3;
+    int *r8=y-2;
     
 }
