@@ -369,7 +369,7 @@ printf (const char *__restrict __fmt, ...)
   400f10:	e8 25 05 00 00       	callq  40143a <explode_bomb>
   400f15:	eb 19                	jmp    400f30 <phase_2+0x34>
   400f17:	8b 43 fc             	mov    -0x4(%rbx),%eax
-  400f1a:	01 c0                	add    %eax,%eax
+  400f1a:	01 c0                	add    %eax,%eax 
   400f1c:	39 03                	cmp    %eax,(%rbx)
   400f1e:	74 05                	je     400f25 <phase_2+0x29>
   400f20:	e8 15 05 00 00       	callq  40143a <explode_bomb>
@@ -387,7 +387,7 @@ printf (const char *__restrict __fmt, ...)
 
 0000000000400f43 <phase_3>:
   400f43:	48 83 ec 18          	sub    $0x18,%rsp
-  400f47:	48 8d 4c 24 0c       	lea    0xc(%rsp),%rcx
+  400f47:	48 8d 4c 24 0c       	lea    0xc(%rsp),%rcx 
   400f4c:	48 8d 54 24 08       	lea    0x8(%rsp),%rdx
   400f51:	be cf 25 40 00       	mov    $0x4025cf,%esi
   400f56:	b8 00 00 00 00       	mov    $0x0,%eax
@@ -395,7 +395,7 @@ printf (const char *__restrict __fmt, ...)
   400f60:	83 f8 01             	cmp    $0x1,%eax
   400f63:	7f 05                	jg     400f6a <phase_3+0x27>
   400f65:	e8 d0 04 00 00       	callq  40143a <explode_bomb>
-  400f6a:	83 7c 24 08 07       	cmpl   $0x7,0x8(%rsp)
+  400f6a:	83 7c 24 08 07       	cmpl   $0x7,0x8(%rsp) # arg1<=7
   400f6f:	77 3c                	ja     400fad <phase_3+0x6a>
   400f71:	8b 44 24 08          	mov    0x8(%rsp),%eax
   400f75:	ff 24 c5 70 24 40 00 	jmpq   *0x402470(,%rax,8)
@@ -423,7 +423,7 @@ printf (const char *__restrict __fmt, ...)
   400fc9:	48 83 c4 18          	add    $0x18,%rsp
   400fcd:	c3                   	retq   
 
-0000000000400fce <func4>:
+0000000000400fce <func4>: # x in %rdi , y in %rsi z in %rdx
   400fce:	48 83 ec 08          	sub    $0x8,%rsp
   400fd2:	89 d0                	mov    %edx,%eax
   400fd4:	29 f0                	sub    %esi,%eax
@@ -448,9 +448,9 @@ printf (const char *__restrict __fmt, ...)
   40100b:	c3                   	retq   
 
 000000000040100c <phase_4>:
-  40100c:	48 83 ec 18          	sub    $0x18,%rsp
-  401010:	48 8d 4c 24 0c       	lea    0xc(%rsp),%rcx
-  401015:	48 8d 54 24 08       	lea    0x8(%rsp),%rdx
+  40100c:	48 83 ec 18          	sub    $0x18,%rsp  # arg1=0 arg0<=e
+  401010:	48 8d 4c 24 0c       	lea    0xc(%rsp),%rcx # 参数1
+  401015:	48 8d 54 24 08       	lea    0x8(%rsp),%rdx # 参数0
   40101a:	be cf 25 40 00       	mov    $0x4025cf,%esi
   40101f:	b8 00 00 00 00       	mov    $0x0,%eax
   401024:	e8 c7 fb ff ff       	callq  400bf0 <__isoc99_sscanf@plt>
@@ -462,7 +462,7 @@ printf (const char *__restrict __fmt, ...)
   40103a:	ba 0e 00 00 00       	mov    $0xe,%edx
   40103f:	be 00 00 00 00       	mov    $0x0,%esi
   401044:	8b 7c 24 08          	mov    0x8(%rsp),%edi
-  401048:	e8 81 ff ff ff       	callq  400fce <func4>
+  401048:	e8 81 ff ff ff       	callq  c <func4> # arg0, 0, e
   40104d:	85 c0                	test   %eax,%eax
   40104f:	75 07                	jne    401058 <phase_4+0x4c>
   401051:	83 7c 24 0c 00       	cmpl   $0x0,0xc(%rsp)
@@ -475,10 +475,10 @@ printf (const char *__restrict __fmt, ...)
   401062:	53                   	push   %rbx
   401063:	48 83 ec 20          	sub    $0x20,%rsp
   401067:	48 89 fb             	mov    %rdi,%rbx
-  40106a:	64 48 8b 04 25 28 00 	mov    %fs:0x28,%rax
+  40106a:	64 48 8b 04 25 28 00 	mov    %fs:0x28,%rax #40
   401071:	00 00 
-  401073:	48 89 44 24 18       	mov    %rax,0x18(%rsp)
-  401078:	31 c0                	xor    %eax,%eax
+  401073:	48 89 44 24 18       	mov    %rax,0x18(%rsp) # 24 金丝雀值
+  401078:	31 c0                	xor    %eax,%eax # eax=0;
   40107a:	e8 9c 02 00 00       	callq  40131b <string_length>
   40107f:	83 f8 06             	cmp    $0x6,%eax
   401082:	74 4e                	je     4010d2 <phase_5+0x70>
@@ -529,7 +529,7 @@ printf (const char *__restrict __fmt, ...)
   401117:	41 8b 45 00          	mov    0x0(%r13),%eax
   40111b:	83 e8 01             	sub    $0x1,%eax
   40111e:	83 f8 05             	cmp    $0x5,%eax
-  401121:	76 05                	jbe    401128 <phase_6+0x34>
+  401121:	76 05                	jbe    401128 <phase_6+0x34>  # (rsp)>=7
   401123:	e8 12 03 00 00       	callq  40143a <explode_bomb>
   401128:	41 83 c4 01          	add    $0x1,%r12d
   40112c:	41 83 fc 06          	cmp    $0x6,%r12d
@@ -538,13 +538,13 @@ printf (const char *__restrict __fmt, ...)
   401135:	48 63 c3             	movslq %ebx,%rax
   401138:	8b 04 84             	mov    (%rsp,%rax,4),%eax
   40113b:	39 45 00             	cmp    %eax,0x0(%rbp)
-  40113e:	75 05                	jne    401145 <phase_6+0x51>
+  40113e:	75 05                	jne    401145 <phase_6+0x51>  # 2 (r12)数组不能和(%rbp)==
   401140:	e8 f5 02 00 00       	callq  40143a <explode_bomb>
   401145:	83 c3 01             	add    $0x1,%ebx
   401148:	83 fb 05             	cmp    $0x5,%ebx
   40114b:	7e e8                	jle    401135 <phase_6+0x41>
   40114d:	49 83 c5 04          	add    $0x4,%r13
-  401151:	eb c1                	jmp    401114 <phase_6+0x20>
+  401151:	eb c1                	jmp    401114 <phase_6+0x20>  # (%r13+4)-1<=5
   401153:	48 8d 74 24 18       	lea    0x18(%rsp),%rsi
   401158:	4c 89 f0             	mov    %r14,%rax
   40115b:	b9 07 00 00 00       	mov    $0x7,%ecx
@@ -819,7 +819,7 @@ printf (const char *__restrict __fmt, ...)
   401480:	be c3 25 40 00       	mov    $0x4025c3,%esi
   401485:	b8 00 00 00 00       	mov    $0x0,%eax 
   40148a:	e8 61 f7 ff ff       	callq  400bf0 <__isoc99_sscanf@plt>
-  40148f:	83 f8 05             	cmp    $0x5,%eax
+  40148f:	83 f8 05             	cmp    $0x5,%eax  
   401492:	7f 05                	jg     401499 <read_six_numbers+0x3d>
   401494:	e8 a1 ff ff ff       	callq  40143a <explode_bomb>
   401499:	48 83 c4 18          	add    $0x18,%rsp
