@@ -52,6 +52,48 @@ void phase2()
     }
 }
 
+void phase6(int a[])
+{
+
+    for (int i = 0; i < 7; i++)
+    {
+        for (int j = 1; j < 6 - i; j++)
+        {
+            if (a[i] > 7 || a[i] == a[j])
+                explode_bomb();
+        }
+    }
+    int *p = a[5];
+    while (p != a)
+    {
+        *p -= 7;
+        p--;
+    }
+
+    int *num; // node
+    int i;
+    for (i = 0; i < 6; i++)
+    {
+        num = 0x6032d0;
+        if (a[i] <= 1)
+        {
+            *(&a[i * 2] + 32) = num;
+        }
+        else
+        {
+            for (int j = 1; j != a[i]; j++)
+            {
+                num = *num + 8;
+                *(&a[i * 2] + 32) = num;
+            }
+        }
+    }
+
+    int *a = num;
+    int *b =num->next;
+    int *c=0x00007fffffffdf88;
+    
+}
 int read_six_numbers(char *readline, int *y)
 {                     //y=7fffffffd380
     int *rsp = y - 6; // 7FFFFFFFD368
@@ -76,7 +118,7 @@ int read_six_numbers(char *readline, int *y)
 }
 
 int fun4(int x, int y, int z) //arg0,0,e ,should return 0
-{              
+{
     // int tmp=(z-y)>31
     //int tmp2=((z-y)+tmp)>>1;
     // if (x >= cx)
@@ -93,11 +135,13 @@ int fun4(int x, int y, int z) //arg0,0,e ,should return 0
     //     fun4(x, y, z);
     // }
 
-    z %=2;//offset%2
-    if(z == x){
+    z %= 2; //offset%2
+    if (z == x)
+    {
         return 0;
     }
-    else{
-        return 2*fun(x,y,--z);
+    else
+    {
+        return 2 * fun(x, y, --z);
     }
 }
